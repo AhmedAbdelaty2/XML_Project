@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="resources/style.css">
 </head>
 <body>
     <div class="container">
@@ -30,8 +30,8 @@
         
         <div class="btn">
             <button class="bts" onclick="insertData()">Insert</button>
-            <button class="bts">Update</button>
-            <button class="bts">Delete</button>
+            <button class="bts" onclick="updateData()">Update</button>
+            <button class="bts" onclick="deleteData()">Delete</button>
             <button class="bts" onclick="searchbyName()" style="font-size: 12px; padding: 15.5px 20px;">Search by Name</button>
         </div>
         <div class="btn">
@@ -41,89 +41,7 @@
 
     </div>
 
-    <script>
-        let i = 0;
-        let xml = null;
-
-         document.addEventListener('DOMContentLoaded', ()=>{
-            //fetch the data as soon as the page has loaded
-            fetch('emps.xml')
-            .then(response=>response.text())
-            .then(data=>{
-                //console.log(data);  //string
-                let parser = new DOMParser();
-                xml = parser.parseFromString(data, "application/xml");
-                //console.log(xml)
-                printData();
-                
-            });
-        })
-
-        function nextb(){
-            if(i<xml.getElementsByTagName("name").length-1){
-                i++;
-                printData();
-            }
-        }
-
-        function prevb(){
-            if(i>0){
-                i--;
-                printData();
-            }
-        }
-
-        function searchbyName(){
-            nameToSearch = nameID.value;
-            for(let j=0 ; j<xml.getElementsByTagName("name").length;j++){
-                if(nameToSearch == xml.getElementsByTagName("name")[j].firstChild.nodeValue){
-                    i = j;
-                    break;
-                }else{
-                    continue;
-                }
-            }
-            printData();
-        }
-
-        function insertData(){
-            var employee = xml.createElement("employee");
-            var name = xml.createElement("name");
-            name.appendChild(xml.createTextNode(nameID.value));
-            var phone = xml.createElement("phone");
-            phone.appendChild(xml.createTextNode(phoneID.value));
-            var address = xml.createElement("address");
-            address.appendChild(xml.createTextNode(addressID.value));
-            var email = xml.createElement("email");
-            email.appendChild(xml.createTextNode(emailID.value));
-            employee.appendChild(name);
-            employee.appendChild(phone);
-            employee.appendChild(address);
-            employee.appendChild(email);
-            xml.getElementsByTagName("emps")[0].appendChild(employee);
-            console.log(xml)
-
-            /*const fs = require('fs')
-  
-            // Data which will write in a file.
-            let data = "Learning how to write in a file."
-            
-            // Write data in 'Output.txt' .
-            fs.writeFile('Output.txt', data, (err) => {
-                
-                // In case of a error throw err.
-                if (err) throw err;
-            })*/
-        }
-
-        function printData(){
-            nameID.value = xml.getElementsByTagName("name")[i].firstChild.nodeValue;
-            phoneID.value = xml.getElementsByTagName("phone")[i].firstChild.nodeValue;
-            addressID.value = xml.getElementsByTagName("address")[i].firstChild.nodeValue;
-            emailID.value = xml.getElementsByTagName("email")[i].firstChild.nodeValue;
-        }
-
-        
-    </script>
+    <script src="resources/funs.js"></script>
+    
 </body>
 </html>
